@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader, TensorDataset
 def train(input_size,train_loader,test_loader):
 
     hidden_size = 50
-    lr = 0.005
+    lr = 0.001
     num_epochs = 10
 
     model = LSTM.LSTMModel(input_size, hidden_size)
