@@ -8,7 +8,7 @@ def process_data(save_path,start,num,csv_path):
 
     df=pd.read_csv(csv_path,encoding='utf-8',encoding_errors='ignore',header=None)
 
-    pos=df.loc[start+80000:start+80000+num-1,5]
+    pos=df.loc[start+8e5:start+8e5+num-1,5]
     neg=df.loc[start:start+num-1,5]
 
 
@@ -40,7 +40,7 @@ def cut_words(file_path):
 if __name__ == '__main__':
     csv_path = 'data/raw_data.csv'
     data_path='./data'
-    process_data(data_path+'/train', 0, 100000,csv_path)
-    process_data(data_path+'/test',110000,2000,csv_path)
+    process_data(data_path+'/train', 0, 1e5,csv_path)
+    process_data(data_path+'/test',11e5,2000,csv_path)
     cut_words(data_path+'/train')
     cut_words(data_path+'/test')
