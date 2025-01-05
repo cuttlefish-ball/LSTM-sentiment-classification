@@ -4,8 +4,8 @@ import nltk
 from nltk.corpus import stopwords
 import utiles
 
-def process_data(save_path,start,num):
-    csv_path='data/raw_data.csv'
+def process_data(save_path,start,num,csv_path):
+
     df=pd.read_csv(csv_path,encoding='utf-8',encoding_errors='ignore',header=None)
 
     pos=df.loc[start+80000:start+80000+num-1,5]
@@ -38,7 +38,9 @@ def cut_words(file_path):
     utiles.save_data(train,file_path+'/cut.txt')
 
 if __name__ == '__main__':
-    process_data('./data/train', 0, 10000)
-    process_data('./data/test',20000,2000)
-    cut_words('data/train')
-    cut_words('data/test')
+    csv_path = 'data/raw_data.csv'
+    data_path='./data'
+    process_data(data_path+'/train', 0, 100000,csv_path)
+    process_data(data_path+'/test',110000,2000,csv_path)
+    cut_words(data_path+'/train')
+    cut_words(data_path+'/test')

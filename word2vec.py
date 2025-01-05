@@ -21,4 +21,4 @@ def load_w2v(model_path,train_path,test_path):
 
 
 if __name__ == '__main__':
-    train_w2v('data')
+    train_w2v('./data')
