@@ -8,13 +8,13 @@ from torch.utils.data import DataLoader, TensorDataset
 def train(input_size,train_loader,test_loader):
     input_size = input_size
     hidden_size = 50
-    lr = 0.001
+    lr = 0.0001
 
     model = LSTM.LSTMModel(input_size, hidden_size)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-    num_epochs = 10
+    num_epochs = 20
     loss_min = 100
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     for epoch in range(num_epochs):
@@ -47,13 +47,13 @@ def train(input_size,train_loader,test_loader):
         accuracy = correct / total
         print('Test Accuracy: {:.2%}'.format(accuracy))
 
-def get_dataset():
-    train_label = ([0] * 10000 + [1] * 10000)
-    test_label = ([0] * 2000 + [1] * 2000)
+def get_dataset(data_path,train_num,test_num):
+    train_label = ([0] * train_num + [1] * train_num)
+    test_label = ([0] * test_num + [1] * test_num)
 
-    model_path='data/w2v/word2vec.model'
-    train_path='data/train/cut.txt'
-    test_path='data/test/cut.txt'
+    model_path=data_path+'/w2v/word2vec.model'
+    train_path=data_path+'/train/cut.txt'
+    test_path=data_path+'/test/cut.txt'
     train_w2v,test_w2v=load_w2v(model_path,train_path,test_path)
 
     train_array = np.array(train_w2v, dtype=np.float32)
@@ -71,5 +71,5 @@ def get_dataset():
 
 
 if __name__ == '__main__':
-    train_loader, test_loader = get_dataset()
+    train_loader, test_loader = get_dataset('./data',100000,2000)
     train(100,train_loader,test_loader)
