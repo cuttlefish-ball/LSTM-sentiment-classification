@@ -1,0 +1,8 @@
+
+*.txt
+*.csv
+*.model
+*.pth
+*.xml
+*.pyc
+.idea
