@@ -4,8 +4,8 @@ def text_to_vector(text,model):
     vector = [model[word] for word in text if word in model]
     return sum(vector) / len(vector) if vector else [0] * model.vector_size
 def train_w2v(file_path):
-    train=load_data(file_path+'/train/cut.txt')
-    test = load_data(file_path+'/test/cut.txt')
+    train=load_data(file_path+'/train/le_words.txt')
+    test = load_data(file_path+'/test/le_words.txt')
     all=train+test
     all = [i for x in all for i in x]
     model = gensim.models.Word2Vec(sentences=all, vector_size=100, window=5, min_count=1, workers=5)

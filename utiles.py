@@ -11,3 +11,12 @@ def save_data(datax, path):
                 if i != len(lines) - 1:
                     f.write(',')
             f.write('\n')
+
+def save_le_data(datax, path):
+    with open(path, 'w', encoding="UTF8") as f:
+        for lines in datax:
+            for i, line in enumerate(lines):
+                f.write(str(line))
+                if i != len(lines) - 1:
+                    f.write(',')
+            f.write('\n')

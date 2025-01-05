@@ -7,16 +7,17 @@ from torch.utils.data import DataLoader, TensorDataset
 
 def train(input_size,train_loader,test_loader):
 
-    hidden_size = 50
+    hidden_size = 128
+    num_layers = 3
     lr = 0.001
-    num_epochs = 10
+    num_epochs = 50
 
-    model = LSTM.LSTMModel(input_size, hidden_size)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = LSTM.LSTMModel(input_size, hidden_size,num_layers).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-
     loss_min = 100
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
     for epoch in range(num_epochs):
         model.train()
         for batch_idx, (data, target) in enumerate(train_loader):
@@ -36,11 +37,13 @@ def train(input_size,train_loader,test_loader):
             epoch + 1, num_epochs,  loss.item(),accuracy))
 
 def test(model,test_loader):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     with torch.no_grad():
         model.eval()
         correct = 0
         total = 0
         for data, target in test_loader:
+            data, target = data.to(device), target.to(device)
             outputs = model(data)
             _, predicted = torch.max(outputs.data, 1)
             total += target.size(0)
@@ -53,9 +56,9 @@ def get_dataset(data_path,train_num,test_num):
     train_label = ([0] * train_num + [1] * train_num)
     test_label = ([0] * test_num + [1] * test_num)
 
-    model_path=data_path+'/w2v/GoogleNews-vectors-negative300.bin'
-    train_path=data_path+'/train/cut.txt'
-    test_path=data_path+'/test/cut.txt'
+    model_path=data_path+'/w2v/word2vec.bin'
+    train_path=data_path+'/train/le_words.txt'
+    test_path=data_path+'/test/le_words.txt'
     train_w2v,test_w2v,size=load_w2v(model_path,train_path,test_path)
 
     train_array = np.array(train_w2v, dtype=np.float32)
