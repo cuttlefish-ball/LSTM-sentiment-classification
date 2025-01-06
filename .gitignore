@@ -1,9 +1,6 @@
-
-*.txt
-*.csv
-*.model
-*.pth
 *.xml
 *.pyc
 .idea
 *.zip
+*.model
+raw_data.csv
