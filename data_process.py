@@ -3,8 +3,6 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet as wn
-from nltk import pos_tag
 import utiles
 
 def process_data(save_path,start,num,csv_path):
