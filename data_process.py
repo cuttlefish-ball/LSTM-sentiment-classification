@@ -2,6 +2,9 @@ import re
 import pandas as pd
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet as wn
+from nltk import pos_tag
 import utiles
 
 def process_data(save_path,start,num,csv_path):
@@ -35,7 +38,15 @@ def cut_words(file_path):
         s[0]=nltk.tokenize.word_tokenize(s[0])
     stop_words = stopwords.words("english")
     train=[w for w in train if not w in stop_words]
+    print(train)
     utiles.save_data(train,file_path+'/cut.txt')
+
+def le_words(file_path):
+    all=utiles.load_data(file_path+'/cut.txt')
+    lemmatizer = WordNetLemmatizer()
+    lemmatized_words = [[lemmatizer.lemmatize(word.lower()) for word in words] for words in all]
+    utiles.save_le_data(lemmatized_words,file_path+'/le_words.txt')
+
 
 if __name__ == '__main__':
     csv_path = 'data/raw_data.csv'
@@ -44,3 +55,5 @@ if __name__ == '__main__':
     process_data(data_path+'/test',11e5,2000,csv_path)
     cut_words(data_path+'/train')
     cut_words(data_path+'/test')
+    le_words(data_path+'/train')
+    le_words(data_path + '/test')
